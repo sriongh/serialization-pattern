@@ -1,0 +1,1 @@
+g++ -g -I/export/tmp.hudson-rose/opt/boost_1_40_0-inst/include -L/export/tmp.hudson-rose/opt/boost_1_40_0-inst/lib $1 -lboost_serialization -o $2
