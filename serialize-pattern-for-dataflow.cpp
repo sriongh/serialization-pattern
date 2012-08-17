@@ -96,9 +96,11 @@ public:
 int main()
 {
     std::stringstream rw_stream;
+    Lattice* lattice = new Lattice(10);
     FiniteLattice* flattice = new FiniteLattice(2.1);
 
     Lattice::OutArchive out_archive(rw_stream);
+    lattice->serialize(out_archive);
     flattice->serialize(out_archive);
    
     std::cout << rw_stream.str() << std::endl;
