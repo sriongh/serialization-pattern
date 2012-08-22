@@ -21,6 +21,24 @@ public:
     virtual void str(std::string indent=" ") = 0;
 };
 
+class ProductLattice : public serializable
+{
+public:
+    std::map<int, Lattice*> productlattice;
+
+    void serialize(OutArchive& archive, const unsigned int version = 0)
+    {
+    }
+
+    void deserialize(InArchive& archive, const unsigned int version = 0)
+    {
+    }
+
+    void str(std::string indent)
+    {
+    }
+};
+
 class IntLattice: public Lattice
 {
 public:
