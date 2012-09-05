@@ -1,8 +1,32 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <map>
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
+
+class UniqueKeyGen
+{
+    static int key;
+public:
+    static int getUniqueID()
+    {
+        return UniqueKeyGen::key++;
+    }
+};
+
+int UniqueKeyGen::key = 0;
+
+class MemoryObject
+{
+public:
+    int key;
+    MemoryObject(int _key) : key(_key) { }
+    MemoryObject(const MemoryObject& that) { this->key = that.key; }
+    bool operator< (const MemoryObject& that) { return this->key < that.key; }
+    
+};
+
 
 class serializable
 {
@@ -19,12 +43,17 @@ class Lattice : public serializable
 {
 public:
     virtual void str(std::string indent=" ") = 0;
+    virtual Lattice* copy(Lattice* that) = 0;
 };
 
-class ProductLattice : public serializable
+class ProductLattice : public Lattice
 {
 public:
-    std::map<int, Lattice*> productlattice;
+    std::map<MemoryObject*, Lattice*> productlattice;
+
+    Lattice* copy(Lattice* that)
+    {
+    }
 
     void serialize(OutArchive& archive, const unsigned int version = 0)
     {
@@ -45,6 +74,10 @@ public:
     int val;
     IntLattice() { }
     IntLattice(int _that) : Lattice(), val(_that) { }
+
+    Lattice* copy(Lattice* that)
+    {
+    }
 
     void serialize(OutArchive& archive, const unsigned int version = 0)
     {
@@ -68,6 +101,10 @@ public:
     float fval;
     FloatLattice() { }
     FloatLattice(float _that) : fval(_that) { }
+
+    Lattice* copy(Lattice* that)
+    {
+    }
 
     void serialize(OutArchive& archive, const unsigned int version = 0)
     {
