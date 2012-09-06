@@ -54,6 +54,32 @@ public:
 
 };
 
+class IntLattice
+{
+public:
+    typedef boost::archive::text_oarchive OutArchive;
+    typedef boost::archive::text_iarchive InArchive;
+
+    int val;
+    IntLattice() { }
+    IntLattice(int _val) : val(_val) { }
+
+    // boost looks for this method to serialize an object
+    // NOTE: Method can be templatized to have both saving/loading using '&' operator
+    void serialize(OutArchive& archive, const int version=0)
+    {
+        archive << val;
+    }
+
+    // NOTE: If not templatized, serialize() method should exist
+    //       for both text_oarchive and text_iarchive for save/load
+    void serialize(InArchive& archive, const int version=0)
+    {
+        archive >> val;
+    }
+
+};
+
 int main()
 {
     // objects to serialize
@@ -83,6 +109,22 @@ int main()
 
     br_lattice->str();
     dr_lattice->str();
+
+    // testing IntLattice
+    {
+        std::stringstream stream;
+        boost::archive::text_oarchive outArchive(stream);
+        IntLattice latticea(20);
+
+        outArchive << latticea;
+
+        IntLattice latticeb;
+
+        boost::archive::text_iarchive inArchive(stream);
+        inArchive >> latticeb;
+
+        std::cout << latticeb.val << std::endl;
+    }
     
     return 0;
 }

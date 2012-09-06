@@ -26,7 +26,7 @@ public:
 
 
     virtual void serialize(OutArchive& archive, const unsigned int version = 0) = 0;
-    virtual void deserialize(InArchive& archive, const unsigned int version = 0) = 0;
+    virtual void serialize(InArchive& archive, const unsigned int version = 0) = 0;
 };
 
 class Lattice : public serializable
@@ -49,7 +49,8 @@ public:
     {
         archive << key;
     }
-    void deserialize(InArchive& archive, const unsigned int version = 0)
+
+    void serialize(InArchive& archive, const unsigned int version = 0)
     {
         archive >> key;
     }
@@ -83,14 +84,15 @@ public:
         }
     }
 
+    // NOTE: map should be serialized
     void serialize(OutArchive& archive, const unsigned int version = 0)
     {
-        archive << productlattice;
+
     }
 
-    void deserialize(InArchive& archive, const unsigned int version = 0)
+    void serialize(InArchive& archive, const unsigned int version = 0)
     {
-        archive >> productlattice;
+
     }
 
 
@@ -127,7 +129,7 @@ public:
         archive << val;
     }
 
-    void deserialize(InArchive& archive, const unsigned int version = 0)
+    void serialize(InArchive& archive, const unsigned int version = 0)
     {
         archive >> val;
     }
@@ -161,7 +163,7 @@ public:
         archive << fval;
     }
 
-    void deserialize(InArchive& archive, const unsigned int version = 0)
+    void serialize(InArchive& archive, const unsigned int version = 0)
     {
         archive >> fval;
     }
