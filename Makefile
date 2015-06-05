@@ -1,18 +1,22 @@
-CC=g++ -g
-BOOST_INSTALL_PATH=
+CC=g++
+BOOST_INSTALL_PATH=/home/sriram/local/boost
 BOOST_LIB=-lboost_serialization
 
 EXE=\
-	spdfp1 \
-	spi
+	serialize-polymorphic-objects
+
+SRC = serialize-polymorphic-objects.cpp value_object.cpp
+
+OBJS = $(SRC:.cpp=.o)
 
 all: $(EXE)
 
-spdfp1: spdfp1.cpp
-	$(CC) -I$(BOOST_INSTALL_PATH)/include -L$(BOOST_INSTALL_PATH)/lib $< -o $@ $(BOOST_LIB)
+$(EXE): $(OBJS)
+	$(CC) -L$(BOOST_INSTALL_PATH)/lib -o $@ $(OBJS) $(BOOST_LIB)
 
-spi: spi.cpp
-	$(CC) -I$(BOOST_INSTALL_PATH)/include -L$(BOOST_INSTALL_PATH)/lib $< -o $@ $(BOOST_LIB)
+.c.o:
+	$(CC) -g -I$(BOOST_INSTALL_PATH)/include -c $< -o $@
+
 
 clean:
-	rm -rf $(EXE)
+	rm -rf *.o $(EXE)
