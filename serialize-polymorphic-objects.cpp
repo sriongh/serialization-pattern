@@ -7,12 +7,10 @@
 #include <boost/serialization/export.hpp>
 #include <list>
 #include <boost/serialization/list.hpp>
+#include "serialization_exports.h"
 
 using namespace std;
 using namespace boost;
-
-BOOST_CLASS_EXPORT_GUID(DotValueObject, "dotvalueobject")
-BOOST_CLASS_EXPORT_GUID(CPValueObject, "cpvalueobject")
 
 void test_shared_ptr_serialization() {
   // Serialize
